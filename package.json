@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/LwrncLiu/running_baseline/issues"
   },
-  "homepage": "https://github.com/LwrncLiu/running_baseline#readme"
+  "homepage": "https://github.com/LwrncLiu/running_baseline#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
 }
