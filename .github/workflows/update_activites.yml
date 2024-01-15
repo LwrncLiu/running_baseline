@@ -31,10 +31,10 @@ jobs:
         STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
         STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
 
-    # - name: update file
-    #   run: echo "$TOTAL_MILES" > ./docs/data.json
-    #   env: 
-    #     TOTAL_MILES: ${{ steps.miles.outputs.TOTAL_MILES }}
+    - name: update file
+      run: echo "$ACTIVITIES" > ./src/activities.json
+      env: 
+        TOTAL_MILES: ${{ steps.activities.outputs.ACTIVITIES }}
 
     - name: commit changed file
       uses: EndBug/add-and-commit@v7

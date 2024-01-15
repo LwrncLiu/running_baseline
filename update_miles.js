@@ -1,4 +1,6 @@
+require('dotenv').config()
 const fs = require('fs')
+const core = require('@actions/core')
 
 async function reAuthorize(){
     // obtains a new access token from strava
@@ -50,7 +52,7 @@ async function getRunningActivities(res){
     return running_activities
 }
 
-function updateFile(activites){
+function getDistinctActivities(activites){
     // compares last 5 days activities with existing activities and 
     // stores the distinct activities inside the file activities.json
     const finished = (error) => {
@@ -60,7 +62,7 @@ function updateFile(activites){
         }
     }
 
-    const fileName = 'activities.json'
+    const fileName = './src/activities.json'
     var allActivities = activites
 
     if (fs.existsSync(fileName)){
@@ -77,15 +79,18 @@ function updateFile(activites){
         return false
     })
 
-    const jsonData = JSON.stringify(distinctActivities, null, 2)
-    fs.writeFile(fileName, jsonData, finished)
+    // const jsonData = JSON.stringify(distinctActivities, null, 2)
+    // fs.writeFile(fileName, jsonData, finished)
+    return distinctActivities
 }
 
 async function execute(){
     // updates activites.json with recent running activities from strava
     const auth = await reAuthorize()
     const running_activities = await getRunningActivities(auth)
-    updateFile(running_activities)
+    const distinct_activities = getDistinctActivities(running_activities)
+    
+    core.setOutput('ACTIVITIES', distinct_activities)
 }
 
 execute()
