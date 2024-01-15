@@ -1,0 +1,43 @@
+name: Miles Retrieval
+
+on:
+  push:
+    branches:
+      - main
+  # workflow_dispatch:
+  # schedule: 
+  #   - cron: '0 6 * * *'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: check out repo
+      uses: actions/checkout@v2
+
+    - name: use node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.x'
+
+    - name: install node dependencies
+      run: npm ci
+
+    - name: get activities
+      run: npm run update-activities
+      id: activities
+      env:
+        STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+        STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+
+    # - name: update file
+    #   run: echo "$TOTAL_MILES" > ./docs/data.json
+    #   env: 
+    #     TOTAL_MILES: ${{ steps.miles.outputs.TOTAL_MILES }}
+
+    - name: commit changed file
+      uses: EndBug/add-and-commit@v7
+      with:
+        add: './src/activities.json'
+        message: 'Update activities in activities.json file'
