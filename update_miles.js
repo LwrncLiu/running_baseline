@@ -71,12 +71,13 @@ function getDistinctActivities(activites){
                 console.error(err)
                 return;
             }
+            const isEmpty = stats.size === 0
+            
+            if(!isEmpty){
+                const existingActivities = JSON.parse(fs.readFileSync(filePath, 'utf8'))
+                allActivities = existingActivities.concat(activites)
+            }
         })
-        const isEmpty = stats.size === 0
-        if(!isEmpty){
-            const existingActivities = JSON.parse(fs.readFileSync(filePath, 'utf8'))
-            allActivities = existingActivities.concat(activites)
-        }
     }
 
     const uniqueIds = {}
