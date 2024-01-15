@@ -71,7 +71,7 @@ function getDistinctActivities(activites){
                 console.error(err)
                 return;
             }
-            const isEmpty = stats.size === 0
+            const isEmpty = stats.size <= 1
             console.log(stats)
             if(!isEmpty){
                 const existingActivities = JSON.parse(fs.readFileSync(filePath, 'utf8'))
