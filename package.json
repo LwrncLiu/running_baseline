@@ -2,11 +2,11 @@
   "name": "running_baseline",
   "version": "1.0.0",
   "description": "",
-  "main": "update_miles.js",
+  "main": "update_activities.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx nodemon ./src/app.js",
-    "update-activities": "node update_miles.js"
+    "update-activities": "node update_activities.js"
   },
   "repository": {
     "type": "git",
