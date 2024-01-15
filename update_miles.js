@@ -62,12 +62,21 @@ function getDistinctActivities(activites){
         }
     }
 
-    const fileName = './src/activities.json'
+    const filePath = './src/activities.json'
     var allActivities = activites
 
-    if (fs.existsSync(fileName)){
-        const existingActivities = JSON.parse(fs.readFileSync(fileName, 'utf8'))
-        allActivities = existingActivities.concat(activites)
+    if (fs.existsSync(filePath)){
+        fs.stat(filePath, (err, stats) => {
+            if(err){
+                console.error(err)
+                return;
+            }
+        })
+        const isEmpty = stats.size === 0
+        if(!isEmpty){
+            const existingActivities = JSON.parse(fs.readFileSync(filePath, 'utf8'))
+            allActivities = existingActivities.concat(activites)
+        }
     }
 
     const uniqueIds = {}
@@ -79,8 +88,6 @@ function getDistinctActivities(activites){
         return false
     })
 
-    // const jsonData = JSON.stringify(distinctActivities, null, 2)
-    // fs.writeFile(fileName, jsonData, finished)
     return distinctActivities
 }
 
