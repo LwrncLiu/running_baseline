@@ -37,7 +37,7 @@ async function getRunningActivities(res){
         // finds the epoch time of 5 days from local run datetime
         const today = new Date()
         const fiveDaysAgo = new Date(today)
-        fiveDaysAgo.setDate(today.getDate() - 5)
+        fiveDaysAgo.setDate(today.getDate() - 15)
         return Math.floor(fiveDaysAgo.getTime() / 1000)
     }
 
