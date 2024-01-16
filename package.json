@@ -2,7 +2,8 @@
   "name": "running_baseline",
   "version": "1.0.0",
   "description": "",
-  "main": "update_activities.js",
+  "main": "./src/app.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx nodemon ./src/app.js",
