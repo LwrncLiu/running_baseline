@@ -56,7 +56,7 @@ function getDistinctActivities(activites){
     // compares last 5 days activities with existing activities and 
     // stores the distinct activities inside the file activities.json
     const filePath = './src/activities.json'
-    var combinedActivities
+    var combinedActivities = []
 
     if (fs.existsSync(filePath)){
         fs.stat(filePath, (err, stats) => {
