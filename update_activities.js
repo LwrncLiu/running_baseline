@@ -52,11 +52,7 @@ async function getRunningActivities(res){
     return running_activities
 }
 
-function getDistinctActivities(activites){
-    // compares last 5 days activities with existing activities and 
-    // stores the distinct activities inside the file activities.json
-    const filePath = './src/activities.json'
-    var combinedActivities = []
+async function getExistingActivities(filePath){
 
     if (fs.existsSync(filePath)){
         fs.stat(filePath, (err, stats) => {
@@ -67,15 +63,23 @@ function getDistinctActivities(activites){
             const isEmpty = stats.size <= 1
             if(!isEmpty){
                 const existingActivities = JSON.parse(fs.readFileSync(filePath, 'utf8'))
-                combinedActivities = activites.concat(existingActivities)
-                console.log('combined', combinedActivities)
+                // combinedActivities = activites.concat(existingActivities)
+                // console.log('combined', combinedActivities)
+                return existingActivities
             }
         })
     }
-    else {
-        combinedActivities = activites
-    }
+    return []
+}
 
+async function getDistinctActivities(activites){
+    // compares last 5 days activities with existing activities and 
+    // stores the distinct activities inside the file activities.json
+    const filePath = './src/activities.json'
+
+    existingActivities = await getExistingActivities(filePath)
+    combinedActivities = existingActivities.concat(activites)
+    
     const uniqueIds = {}
     console.log('after statement, ', combinedActivities)
     const distinctActivities = combinedActivities.filter(obj => {
@@ -93,7 +97,7 @@ async function execute(){
     // updates activites.json with recent running activities from strava
     const auth = await reAuthorize()
     const running_activities = await getRunningActivities(auth)
-    const distinct_activities = getDistinctActivities(running_activities)
+    const distinct_activities = await getDistinctActivities(running_activities)
     console.log(distinct_activities)
     core.setOutput('ACTIVITIES', distinct_activities)
 }
