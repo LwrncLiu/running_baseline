@@ -53,22 +53,23 @@ async function getRunningActivities(res){
 }
 
 async function getExistingActivities(filePath){
-
+    let existingActivities = []
     if (fs.existsSync(filePath)){
+        console.log('file exists')
         fs.stat(filePath, (err, stats) => {
             if(err){
                 console.error(err)
                 return;
             }
             const isEmpty = stats.size <= 1
+            console.log('empty', isEmpty)
             if(!isEmpty){
-                const existingActivities = JSON.parse(fs.readFile(filePath, 'utf8'))
-                return existingActivities
+                existingActivities = JSON.parse(fs.readFile(filePath, 'utf8'))
+                console.log('existing', existingActivities)
             }
         })
-    } else {
-        return []
     }
+    return existingActivities
 }
 
 async function getDistinctActivities(activites){
