@@ -63,8 +63,6 @@ async function getExistingActivities(filePath){
             const isEmpty = stats.size <= 1
             if(!isEmpty){
                 const existingActivities = JSON.parse(fs.readFileSync(filePath, 'utf8'))
-                // combinedActivities = activites.concat(existingActivities)
-                // console.log('combined', combinedActivities)
                 return existingActivities
             }
         })
@@ -78,8 +76,9 @@ async function getDistinctActivities(activites){
     const filePath = './src/activities.json'
 
     existingActivities = await getExistingActivities(filePath)
+    console.log('existing activites', existingActivities)
     combinedActivities = existingActivities.concat(activites)
-    
+
     const uniqueIds = {}
     console.log('after statement, ', combinedActivities)
     const distinctActivities = combinedActivities.filter(obj => {
