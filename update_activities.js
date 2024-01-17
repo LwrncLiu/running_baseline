@@ -64,7 +64,10 @@ async function getExistingActivities(filePath){
             const isEmpty = stats.size <= 1
             console.log('empty', isEmpty)
             if(!isEmpty){
-                existingActivities = JSON.parse(fs.readFile(filePath, 'utf8'))
+                existingActivities = JSON.parse(fs.readFile(filePath, 'utf8', (err, data) => {
+                    if(err) throw err 
+                    return data
+                }))
                 console.log('existing', existingActivities)
             }
         })
