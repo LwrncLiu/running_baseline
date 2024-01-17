@@ -54,7 +54,8 @@ async function getRunningActivities(res){
 
 async function getExistingActivities(filePath){
     let existingActivities = []
-    if (await fs.stat(filePath)){
+    const exists = await fs.existsSync(filePath)
+    if (exists){
         console.log('file exists')
         existingActivities = fs.readFile(filePath, 'utf8', (err, data) => {
             if(err){
