@@ -69,12 +69,12 @@ function getDistinctActivities(activites){
             if(!isEmpty){
                 const existingActivities = JSON.parse(fs.readFileSync(filePath, 'utf8'))
                 console.log(existingActivities)
-                allActivities.concat(existingActivities)
+                allActivities = allActivities.concat(existingActivities)
             }
         })
     }
     console.log(allActivities)
-    
+
     const uniqueIds = {}
     const distinctActivities = allActivities.filter(obj => {
         if(!uniqueIds[obj.id]){
@@ -83,6 +83,7 @@ function getDistinctActivities(activites){
         }
         return false
     })
+    console.log(distinctActivities)
 
     return distinctActivities
 }
