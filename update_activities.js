@@ -58,16 +58,11 @@ async function getExistingActivities(filePath){
     try {
         const exists = await fs.existsSync(filePath)
         if (exists){
-            const data = await fs.readFile(filePath, 'utf8', (err, data) => {
-                if (err){
-                    console.error(err)
-                    return;
-                }
-            })
+            const data = await fs.readFileSync(filePath, 'utf-8')
             existingActivities = await JSON.parse(data)
         }
     } catch (err) {
-        console.log(err)
+        console.error(err)
     }
     
     return existingActivities
@@ -80,11 +75,9 @@ async function getDistinctActivities(activites){
     const filePath = './src/activities.json'
 
     existingActivities = await getExistingActivities(filePath)
-    console.log('existing activites', existingActivities)
     combinedActivities = existingActivities.concat(activites)
 
     const uniqueIds = {}
-    console.log('after statement, ', combinedActivities)
     const distinctActivities = combinedActivities.filter(obj => {
         if(!uniqueIds[obj.id]){
             uniqueIds[obj.id] = true
@@ -101,7 +94,6 @@ async function execute(){
     const auth = await reAuthorize()
     const running_activities = await getRunningActivities(auth)
     const distinct_activities = await getDistinctActivities(running_activities)
-    console.log(distinct_activities)
     core.setOutput('ACTIVITIES', distinct_activities)
 }
 
