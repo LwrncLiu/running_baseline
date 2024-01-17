@@ -56,8 +56,7 @@ function getDistinctActivities(activites){
     // compares last 5 days activities with existing activities and 
     // stores the distinct activities inside the file activities.json
     const filePath = './src/activities.json'
-    var allActivities = activites
-    console.log(allActivities)
+    let allActivities = activites
 
     if (fs.existsSync(filePath)){
         fs.stat(filePath, (err, stats) => {
@@ -68,12 +67,10 @@ function getDistinctActivities(activites){
             const isEmpty = stats.size <= 1
             if(!isEmpty){
                 const existingActivities = JSON.parse(fs.readFileSync(filePath, 'utf8'))
-                console.log(existingActivities)
                 allActivities = allActivities.concat(existingActivities)
             }
         })
     }
-    console.log(allActivities)
 
     const uniqueIds = {}
     const distinctActivities = allActivities.filter(obj => {
@@ -93,7 +90,7 @@ async function execute(){
     const auth = await reAuthorize()
     const running_activities = await getRunningActivities(auth)
     const distinct_activities = getDistinctActivities(running_activities)
-    
+    console.log(distinct_activities)
     core.setOutput('ACTIVITIES', distinct_activities)
 }
 
