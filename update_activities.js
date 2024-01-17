@@ -66,8 +66,9 @@ async function getExistingActivities(filePath){
                 return existingActivities
             }
         })
+    } else {
+        return []
     }
-    return []
 }
 
 async function getDistinctActivities(activites){
