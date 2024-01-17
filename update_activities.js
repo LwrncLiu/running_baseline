@@ -56,7 +56,7 @@ function getDistinctActivities(activites){
     // compares last 5 days activities with existing activities and 
     // stores the distinct activities inside the file activities.json
     const filePath = './src/activities.json'
-    let allActivities = activites
+    var combinedActivities
 
     if (fs.existsSync(filePath)){
         fs.stat(filePath, (err, stats) => {
@@ -67,14 +67,18 @@ function getDistinctActivities(activites){
             const isEmpty = stats.size <= 1
             if(!isEmpty){
                 const existingActivities = JSON.parse(fs.readFileSync(filePath, 'utf8'))
-                console.log('exiting activities, ', existingActivities)
-                allActivities = allActivities.concat(existingActivities)
+                combinedActivities = activites.concat(existingActivities)
+                console.log('combined', combinedActivities)
             }
         })
     }
-    console.log('all activities, ', allActivities)
+    else {
+        combinedActivities = activites
+    }
+
     const uniqueIds = {}
-    const distinctActivities = allActivities.filter(obj => {
+    console.log('after statement, ', combinedActivities)
+    const distinctActivities = combinedActivities.filter(obj => {
         if(!uniqueIds[obj.id]){
             uniqueIds[obj.id] = true
             return true
