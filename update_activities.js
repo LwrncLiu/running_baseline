@@ -67,11 +67,12 @@ function getDistinctActivities(activites){
             const isEmpty = stats.size <= 1
             if(!isEmpty){
                 const existingActivities = JSON.parse(fs.readFileSync(filePath, 'utf8'))
+                console.log('exiting activities, ', existingActivities)
                 allActivities = allActivities.concat(existingActivities)
             }
         })
     }
-
+    console.log('all activities, ', allActivities)
     const uniqueIds = {}
     const distinctActivities = allActivities.filter(obj => {
         if(!uniqueIds[obj.id]){
@@ -80,7 +81,6 @@ function getDistinctActivities(activites){
         }
         return false
     })
-    console.log(distinctActivities)
 
     return distinctActivities
 }
