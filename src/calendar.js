@@ -6,7 +6,7 @@ function Calendar(data, {
     y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
     title, // given d in data, returns the title text
     width = 928, // width of the chart, in pixels
-    cellSize = 17, // width and height of an individual day, in pixels
+    cellSize = 18, // width and height of an individual day, in pixels
     weekday = "monday", // either: weekday, sunday, or monday
     formatDay = i => "SMTWTFS"[i], // given a day number in [0, 6], the day-of-week label
     formatMonth = "%b", // format specifier string for months (above the chart)
@@ -35,11 +35,13 @@ function Calendar(data, {
     if (title === undefined) {
       const formatDate = d3.utcFormat("%B %-d, %Y");
       const formatValue = color.tickFormat(100, yFormat);
-      title = i => `${formatDate(X[i])}\n${formatValue(Y[i])}`;
+      title = i => `${formatDate(X[i])}\n${formatValue(Y[i])} miles`;
     } else if (title !== null) {
       const T = d3.map(data, title);
       title = i => T[i];
     }
+    console.log(title)
+
   
     // Group the index by year, in reverse input order. (Assuming that the input is
     // chronological, this will show years in reverse chronological order.)
@@ -83,6 +85,11 @@ function Calendar(data, {
         .attr("dy", "0.31em")
         .text(formatDay);
   
+    // on mouseover show stats from that day
+    var div = d3.select("body").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+    
     const cell = year.append("g")
       .selectAll("rect")
       .data(weekday === "weekday"
